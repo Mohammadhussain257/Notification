@@ -5,6 +5,8 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
 import android.app.Notification;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -12,6 +14,21 @@ import android.widget.Button;
 public class MainActivity extends AppCompatActivity {
     private NotificationManagerCompat notificationManagerCompat;
     Button btnNotificatoin1,btnNotification2;
+
+    BroadCastReceiver broadCastReceiver = new BroadCastReceiver();
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        IntentFilter intentFilter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(broadCastReceiver,intentFilter);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        unregisterReceiver(broadCastReceiver);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
